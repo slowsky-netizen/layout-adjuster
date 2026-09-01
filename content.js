@@ -42,7 +42,6 @@
     }
     window.addEventListener('load', applySavedLayout);
 
-    // Логика выбора элемента
     let picking = false;
     let hoveredElement = null;
 
@@ -70,7 +69,6 @@
         document.body.style.cursor = 'default';
         if (hoveredElement) hoveredElement.style.outline = '';
 
-        // Вызываем панель, передавая элемент
         showSettingsPanel(e.target);
     }, true);
 
@@ -85,23 +83,18 @@
         const host = window.location.hostname;
         const storageKey = `layout_${host}`;
 
-        // Сначала читаем текущие правила, чтобы понять, есть ли это правило уже
         chrome.storage.local.get([storageKey], (result) => {
             let storedData = result[storageKey];
             let rules = Array.isArray(storedData) ? storedData : (storedData ? [storedData] : []);
 
-            // Ищем существующее правило с таким селектором
             const existingIndex = rules.findIndex(r => r.selector === selector);
 
-            // Дефолтные значения
             let defaults = { align: 'left', margin: 0, widthType: 'max', widthPx: 1200, enabled: true };
 
-            // Если нашли, подставляем сохраненные значения
             if (existingIndex !== -1) {
                 defaults = rules[existingIndex];
             }
 
-            // Формируем HTML панели с учетом дефолтов
             const panel = document.createElement('div');
             panel.id = 'layout-adjuster-panel';
             panel.style.cssText = `
@@ -149,7 +142,6 @@
 
             document.body.appendChild(panel);
 
-            // Логика переключения полей
             document.getElementById('la-align').addEventListener('change', (e) => {
                 document.getElementById('la-margin-label').style.display = e.target.value === 'custom' ? 'block' : 'none';
             });
@@ -157,7 +149,6 @@
                 document.getElementById('la-width-label').style.display = e.target.value === 'px' ? 'block' : 'none';
             });
 
-            // Клик по панели (перехват клика)
             panel.addEventListener('click', (e) => {
                 if (e.target.id === 'la-cancel') {
                     removeSettingsPanel();
@@ -177,7 +168,6 @@
                         enabled: document.getElementById('la-enabled').checked
                     };
 
-                    // Если уже существует - перезаписываем, иначе - добавляем
                     if (existingIndex !== -1) {
                         rules[existingIndex] = newRule;
                     } else {
@@ -185,7 +175,7 @@
                     }
 
                     chrome.storage.local.set({ [storageKey]: rules }, () => {
-                        applyLayoutToElement(el, newRule); // Применяем сразу
+                        applyLayoutToElement(el, newRule);
                         removeSettingsPanel();
                         try { chrome.runtime.sendMessage({ action: "rules_updated" }); } catch(e) {}
                     });
