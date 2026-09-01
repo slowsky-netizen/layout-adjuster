@@ -192,7 +192,7 @@
 
         if (settings.widthType === 'px') el.style.width = settings.widthPx + 'px';
         else el.style.maxWidth = '100%';
-
+        
         if (settings.align === 'left') {
             el.style.marginLeft = '0'; el.style.marginRight = 'auto';
         } else if (settings.align === 'center') {
