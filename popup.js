@@ -118,7 +118,6 @@ document.getElementById('rules-list').addEventListener('click', (e) => {
       document.getElementById('edit-width-type').value = rule.widthType;
       document.getElementById('edit-width').value = rule.widthPx || 1200;
       document.getElementById('edit-enabled').checked = rule.enabled;
-
       updateEditFields();
 
       document.getElementById('rules-list').style.display = 'none';
