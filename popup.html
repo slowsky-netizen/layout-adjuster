@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  body { width: 350px; font-family: sans-serif; padding: 0; margin: 0; }
+  
+  .tabs { display: flex; border-bottom: 1px solid #ccc; background: #f5f5f5; }
+  .tab-btn { flex: 1; padding: 10px; border: none; background: transparent; cursor: pointer; font-size: 14px; color: #000; }
+  .tab-btn.active { background: #fff; font-weight: bold; border-bottom: 2px solid #007bff; }
+  
+  .content { padding: 15px; }
+  .hidden { display: none; }
+
+  label { display: block; margin-top: 10px; font-size: 13px; }
+  select, input { width: 100%; margin-top: 5px; padding: 5px; box-sizing: border-box; }
+  button { margin-top: 15px; width: 100%; padding: 8px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; }
+  button.secondary { background: #6c757d; }
+  button.danger { background: #dc3545; margin-top: 20px; border: 1px solid #a71d2a; }
+
+  .rule-item { border: 1px solid #ddd; border-radius: 5px; padding: 10px; margin-bottom: 10px; }
+  .rule-header { font-weight: bold; margin-bottom: 5px; font-size: 13px; word-break: break-all; }
+  .rule-actions { display: flex; gap: 10px; margin-top: 10px; }
+  .rule-actions button { margin: 0; padding: 5px; font-size: 12px; }
+  .edit-btn { background: #ffc107; color: #000; }
+  .delete-btn { background: #dc3545; }
+</style>
+</head>
+<body>
+
+  <div class="tabs">
+    <button id="tab-pick-btn" class="tab-btn active">Выбор</button>
+    <button id="tab-rules-btn" class="tab-btn">Правила</button>
+  </div>
+
+  <div id="tab-pick-content" class="content">
+    <button id="pick-btn" style="margin-top:0;">Выбрать элемент на странице</button>
+    <p style="font-size: 12px; color: #666; margin-top: 10px;">Нажмите кнопку, затем кликните по элементу на сайте.</p>
+  </div>
+
+  <div id="tab-rules-content" class="content hidden">
+    <h3 style="margin-top:0;">Правила для текущего сайта</h3>
+    <div id="rules-list">Загрузка...</div>
+
+    <!-- Новая кнопка сброса -->
+    <button id="clear-all-btn" class="danger">Очистить все правила на этом сайте</button>
+
+    <!-- Форма редактирования -->
+    <div id="edit-form" class="hidden">
+      <h4>Редактирование правила</h4>
+      
+      <label>CSS Селектор (код элемента):
+        <input type="text" id="edit-selector" placeholder=".class-name или #id">
+      </label>
+
+      <label>Выравнивание:
+        <select id="edit-align">
+          <option value="left">Левый край</option>
+          <option value="center">Центр</option>
+          <option value="right">Правый край</option>
+          <option value="custom">Отступ от краев</option>
+        </select>
+      </label>
+      <label id="edit-margin-label" class="hidden">Отступ (px): <input type="number" id="edit-margin" value="0"></label>
+
+      <label>Ширина:
+        <select id="edit-width-type">
+          <option value="max">Max Width</option>
+          <option value="px">Вручную (px)</option>
+        </select>
+      </label>
+      <label id="edit-width-label" class="hidden">Ширина (px): <input type="number" id="edit-width" value="1200"></label>
+
+      <label style="display:flex; align-items:center; gap:5px; margin-top:10px;">
+        <input type="checkbox" id="edit-enabled" style="width:auto;"> Применять на сайте
+      </label>
+
+      <button id="save-edit-btn">Сохранить изменения</button>
+      <button id="cancel-edit-btn" class="secondary">Отмена</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
