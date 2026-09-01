@@ -37,7 +37,6 @@ document.getElementById('pick-btn').addEventListener('click', async () => {
   window.close();
 });
 
-// Слушаем обновление правил из content.js
 chrome.runtime.onMessage.addListener((message) => {
     if (message.action === "rules_updated") loadRules();
 });
@@ -52,7 +51,6 @@ function loadRules() {
     let storedData = result[`layout_${currentHost}`];
     let rules = [];
 
-    // Преобразуем старый объект в массив
     if (Array.isArray(storedData)) rules = storedData;
     else if (storedData && typeof storedData === 'object') rules = [storedData];
 
@@ -180,7 +178,6 @@ document.getElementById('cancel-edit-btn').addEventListener('click', () => {
   document.getElementById('clear-all-btn').style.display = 'block';
 });
 
-// Кнопка полной очистки
 document.getElementById('clear-all-btn').addEventListener('click', () => {
   if (confirm('Удалить ВСЕ сохраненные правила для этого сайта?')) {
     chrome.storage.local.remove([`layout_${currentHost}`], () => {
